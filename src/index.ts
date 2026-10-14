@@ -22,8 +22,16 @@ async function main(): Promise<void> {
 
   // 3. ICS パース
   console.log("Parsing ICS file...");
-  const events = parseIcsFile(config.icsFilePath);
-  console.log(`  Found ${events.length} events in ICS.`);
+  const allEvents = parseIcsFile(config.icsFilePath);
+
+const cutoff = new Date();
+cutoff.setFullYear(cutoff.getFullYear() - 1);
+
+const events = allEvents.filter((event) => {
+  return event.start >= cutoff;
+});
+
+console.log(`  Found ${events.length} events in ICS.`);
 
   // 4. Google Calendar クライアント初期化
   const gcal = new GCalClient(config.googleCredentials, config.googleCalendarId);
@@ -36,6 +44,7 @@ async function main(): Promise<void> {
   // 6. 差分計算
   const engine = new SyncEngine(gcal);
   const diff = engine.computeDiff(events, syncedEvents);
+  diff.toDelete = [];
   console.log(
     `\nDiff: ${diff.toCreate.length} to create, ${diff.toUpdate.length} to update, ${diff.toDelete.length} to delete`
   );
