@@ -117,8 +117,12 @@ export class GCalClient {
     }
 
     if (event.recurrence.length > 0) {
-      body.recurrence = event.recurrence;
-    }
+  console.log(
+    `Recurrence for "${event.summary}":`,
+    JSON.stringify(event.recurrence)
+  );
+  body.recurrence = event.recurrence;
+}
 
     return body;
   }
