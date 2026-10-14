@@ -28,7 +28,7 @@ const cutoff = new Date();
 cutoff.setFullYear(cutoff.getFullYear() - 1);
 
 const events = allEvents.filter((event) => {
-  return event.start >= cutoff;
+  return event.start >= cutoff && event.recurrence.length === 0;
 });
 
 console.log(`  Found ${events.length} events in ICS.`);
