@@ -116,12 +116,14 @@ export class GCalClient {
       body.end = { dateTime: event.end.toISOString() };
     }
 
-    if (event.recurrence.length > 0) {
-  console.log(
-    `Recurrence for "${event.summary}":`,
-    JSON.stringify(event.recurrence)
-  );
-  body.recurrence = event.recurrence;
+   if (event.recurrence.length > 0) {
+  const rules = event.recurrence
+    .flatMap((rule) => rule.split(/\r?\n/))
+    .filter((line) => line.startsWith("RRULE:FREQ="));
+
+  if (rules.length > 0) {
+    body.recurrence = rules;
+  }
 }
 
     return body;
