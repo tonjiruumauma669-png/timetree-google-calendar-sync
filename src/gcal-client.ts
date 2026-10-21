@@ -72,7 +72,7 @@ export class GCalClient {
     event: CalendarEvent
   ): Promise<void> {
     const body = this.toGCalEvent(event);
-    await this.calendar.events.patch({
+    await this.calendar.events.update({
       calendarId: this.calendarId,
       eventId: googleEventId,
       requestBody: body,
