@@ -114,11 +114,9 @@ export class GCalClient {
     } else {
       body.start = {
   dateTime: event.start.toISOString(),
-  timeZone: "Asia/Tokyo",
 };
 body.end = {
   dateTime: event.end.toISOString(),
-  timeZone: "Asia/Tokyo",
 };
     }
 
